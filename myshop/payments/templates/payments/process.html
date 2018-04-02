@@ -1,0 +1,9 @@
+{% extends "shop/base.html" %}
+
+{% block title %}Pay{% endblock title %}
+
+{% block content %}
+<h3>Choose Payment Method</h3>
+
+<span>Pay with Paystack {% load paystack %} {% paystack_button button_class="red" amount=amount email=email %}</span>
+{% endblock content %}

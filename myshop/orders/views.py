@@ -20,9 +20,10 @@ def order_create(request):
                                         quantity=item['quantity'])
                 new_order.save()
             cart.clear()
-            order_created.delay(order.id)
-            return render(request, 'orders/order/created.html',
-                        {'order': order})
+            # launch asynchronous task
+            order_created.delay(order.id) # set the order in the session
+            request.session['order_id'] = order.id # redirect to the payment
+            return redirect(reverse('payments:process'))
     else:
         form = OrderCreateForm()
     return render(request, 'orders/order/create.html',
